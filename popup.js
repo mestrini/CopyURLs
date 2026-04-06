@@ -1,37 +1,57 @@
+const RESULT_DIV = document.getElementById('result');
+const NOTIFICATION_TITLE = browser.i18n.getMessage("notificationTitle");
+const NOTIFICATION_ICON ="icons/CopyURLs48.png";
+
 window.addEventListener("load", async () => {
-  const resultDiv = document.getElementById('result');
+
   try {
-    applyTranslations();
+    i18nLoadStrings();
     
     await loadSettings();
     
     const tabs = await getTabs();
     updateDisplay(tabs);
     
-    document.querySelectorAll('input[name="format"], #use-json-formatting, #use-empty-lines').forEach(input => {
+    document.getElementById('format_select')?.addEventListener('change', (event) => {
+        updateDisplay(tabs);
+        saveSettings();
+        toggleOptionsVisibility();
+    });
+
+    document.querySelectorAll('#use-json-formatting, #use-empty-lines').forEach(input => {
       input.addEventListener('change', () => {
         updateDisplay(tabs);
         saveSettings();
       });
-    });
-    
+    });     
+
     document.getElementById('copy-button').addEventListener('click', () => {
       copyToClipboard(formatData(tabs, getSelectedFormat(), useJsonFormatting(), useEmptyLines()));
-      const originalText = document.getElementById('copy-button').textContent;
-      document.getElementById('copy-button').textContent = getTranslation('copied');
-      setTimeout(() => {
-        document.getElementById('copy-button').textContent = originalText;
-      }, 1500);
+      showNotification('copyNotification', browser.i18n.getMessage("notificationContent"), true);
     });
     
     toggleOptionsVisibility();
-    document.querySelectorAll('input[name="format"]').forEach(radio => {
-      radio.addEventListener('change', toggleOptionsVisibility);
-    });
+    
   } catch (error) {
-    resultDiv.textContent = getTranslation('error') + error.message;
+    showNotification('errorNotification', browser.i18n.getMessage('error') + error.message, true);
+    RESULT_DIV.textContent = browser.i18n.getMessage('error') + error.message;
   }
 }, { once: true });
+
+function showNotification(id, msg, clear) {
+  browser.notifications.create(id, {
+    type: "basic",
+    title: NOTIFICATION_TITLE,
+    iconUrl: NOTIFICATION_ICON,
+    message: msg
+  });
+  if(clear) {
+    let notifyTimeout;
+    notifyTimeout = setTimeout(()=> {
+      browser.notifications.clear(id);
+    }, 3500);
+  }
+}
 
 function saveSettings() {
   const settings = {
@@ -47,10 +67,7 @@ async function loadSettings() {
   return new Promise((resolve) => {
     chrome.storage.sync.get('settings', (data) => {
       if (data.settings) {
-        const formatRadio = document.querySelector(`input[name="format"][value="${data.settings.format}"]`);
-        if (formatRadio) {
-          formatRadio.checked = true;
-        }
+        document.getElementById('format_select').value = data.settings.format;
         if (document.getElementById('use-json-formatting')) {
           document.getElementById('use-json-formatting').checked = data.settings.jsonFormatting;
         }
@@ -71,7 +88,7 @@ async function getTabs() {
 }
 
 function getSelectedFormat() {
-  return document.querySelector('input[name="format"]:checked').value;
+  return document.getElementById('format_select').value;
 }
 
 function useJsonFormatting() {
@@ -86,7 +103,7 @@ function toggleOptionsVisibility() {
   const format = getSelectedFormat();
   const jsonOptions = document.querySelector('.json-options');
   const textOptions = document.querySelector('.text-options');
-  const detailsSection = document.querySelector('.details-section');
+  const detailsSection = document.querySelector('#details_section');
   const showJsonOptions = format.startsWith('json');
   jsonOptions.style.display = showJsonOptions ? 'block' : 'none';
   const showTextOptions = format.startsWith('text');
@@ -104,6 +121,7 @@ function escapeTSV(str) {
   if (!str) return '';
   return str.replace(/\t/g, ' ').replace(/\n/g, ' ');
 }
+
 function formatData(tabs, format, useJsonFormatting, useEmptyLines) {
   if (format === 'json-object') {
     const data = tabs.map(tab => ({ title: tab.title, url: tab.url }));
@@ -134,14 +152,15 @@ function updateDisplay(tabs) {
   const jsonFormatting = useJsonFormatting();
   const emptyLines = useEmptyLines();
   const formattedData = formatData(tabs, format, jsonFormatting, emptyLines);
-  document.getElementById('result').textContent = formattedData;
+  RESULT_DIV.textContent = formattedData;
 }
 
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {
-    console.error("failed to copy to clipbard:", err);
+    console.error("failed to copy to clipbard: ", err);
+    console.warn("trying fallback...");
     // fallback
     const textArea = document.createElement('textarea');
     textArea.value = text;
@@ -152,3 +171,17 @@ async function copyToClipboard(text) {
   }
 }
 
+function i18nLoadStrings() {
+  
+  // console.log('The locale is: ' + browser.i18n.getUILanguage());
+  
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    if(element.classList == 'optgroup') {
+      element.label = browser.i18n.getMessage(key);
+    } else {
+      element.textContent = browser.i18n.getMessage(key);
+    }
+  });
+
+}

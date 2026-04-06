@@ -1,0 +1,78 @@
+{
+  "notificationTitle": {
+    "message": "Copy URLs Extension",
+    "description": "Browser notification API title"
+  },
+  "notificationContent": {
+    "message": "All tabs links copied to clipboard",
+    "description": "Browser notification text informing all tabs' links were copied to clipboard"
+  },
+  "copyButton": {
+    "message": "Copy all tabs to clipboard",
+    "description": "Button text informing all tabs will be copied to clipboard"
+  },
+  "error": {
+    "message": "Error: ",
+    "description": "Prefix text for when displaying error message."
+  },
+  "format": {
+    "message": "Format",
+    "description": "Title for type of links formatting section."
+  },
+  "options": {
+    "message": "Options",
+    "description": "Title for visualisation options section."
+  },
+  "selectFormat": {
+    "message": "Choose a format",
+    "description": "Default dropdown option for links"
+  },
+  "textUrlOnly": {
+    "message": "Text (URLs only)",
+    "description": "Dropdown option for links formatting consisting of only text links"
+  },
+  "textWithTitle": {
+    "message": "Text (Title + URL)",
+    "description": "Dropdown option for links formatting consisting of tabs titles and links"
+  },
+  "jsonUrlArray": {
+    "message": "JSON (URL array)",
+    "description": "Dropdown option for links formatting consisting single dimension JSON arrays"
+  },
+  "jsonArray": {
+    "message": "JSON (2D Array)",
+    "description": "Dropdown option for links formatting consisting of 2d JSON arrays"
+  },
+  "jsonObject": {
+    "message": "JSON (Object array)",
+    "description": "Dropdown option for links formatting consisting of JSON array objects"
+  },
+  "commaSV": {
+    "message": "CSV (comma)",
+    "description": "Dropdown option for links formatting consisting of comma separated values"
+  },
+  "tabSV": {
+    "message": "TSV (tab)",
+    "description": "Dropdown option for links formatting consisting of TAB separated values"
+  },
+  "emptyLines": {
+    "message": "Add empty lines",
+    "description": "Option text to add empty lines to links exported as text strings"
+  },
+  "formatting": {
+    "message": "Pretty print",
+    "description": "Option text to beautify JSON formatted links"
+  },
+  "labelText": {
+    "message": "Text",
+    "description": "Option group title for text"
+  },
+  "labelJSON": {
+    "message": "Json",
+    "description": "Option group title for json"
+  },
+  "labelSV": {
+    "message": "Separated values",
+    "description": "Option group title for separated values"
+  }
+}

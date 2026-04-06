@@ -1,0 +1,71 @@
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #cccccc;
+  --button-bg: #f0f0f0;
+  --button-hover: #e0e0e0;
+  --result-bg: #ffffff;
+  --input-border: #dddddd;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #2c2c2c;
+    --text-color: #e0e0e0;
+    --border-color: #555555;
+    --button-bg: #444444;
+    --button-hover: #555555;
+    --result-bg: #333333;
+    --input-border: #666666;
+  }
+}
+body {
+  width: 300px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.copy-button {
+  margin: 0;
+  display: block;
+}
+#format_options {
+  margin: 10px 0;
+}
+#details_section {
+  margin: 15px 0;
+}
+#result {
+  margin-top: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  font-family: monospace;
+  background-color: var(--result-bg);
+}
+button {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: var(--button-hover);
+}
+input[type="checkbox"] {
+  accent-color: var(--button-bg);
+}
+h3 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 5px;
+}

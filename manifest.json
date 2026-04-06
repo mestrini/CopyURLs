@@ -1,7 +1,13 @@
 {
+  "description": "Copy URLs from all open tabs to clipboard in various formats",
+  "homepage_url": "https://github.com/oov/CopyURLs",
+  "developer": {
+  "name": "Masanobu YOSHIOKA (oov)",
+  "url": "https://oov.ch/"
+  },
   "action": {
     "default_title": "Copy URLs",
-    "default_icon": "CopyURLs48.png",
+    "default_icon": "icons/CopyURLs48.png",
     "default_popup": "popup.html"
   },
   "browser_specific_settings": {
@@ -10,13 +16,17 @@
       "strict_min_version": "109.0"
     }
   },
-  "description": "Copy URLs from all open tabs to clipboard in various formats",
   "icons": {
-    "128": "CopyURLs128.png",
-    "48": "CopyURLs48.png"
+    "128": "icons/CopyURLs128.png",
+    "48": "icons/CopyURLs48.png"
   },
   "manifest_version": 3,
   "name": "Copy URLs",
   "version": "1.1",
-  "permissions": ["tabs", "storage"]
+  "default_locale": "en",
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications"
+  ]
 }
